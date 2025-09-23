@@ -6,12 +6,6 @@ global:
             password: "{{ .Values.HOME_DATABASE_PASSWORD }}"
             database: "{{ .Values.HOME_DATABASE_NAME }}"
 
-primary:
-    service:
-        type: NodePort
-        nodePorts:
-            postgresql: 30130
-
 #    persistence:
 #        size: {{ env "POSTGRES_PV_SIZE" }}
 

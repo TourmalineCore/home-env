@@ -5,10 +5,15 @@ controller:
   service:
     type: NodePort
     ports:
-      http: "{{ .Values.HOME_EXTERNAL_PORT }}"
+      http: "{{ .Values.HOME_EXTERNAL_HTTP_PORT }}"
+      {{- if .Values.HOME_EXTERNAL_HTTPS_PORT }}
+      https: "{{ .Values.HOME_EXTERNAL_HTTPS_PORT }}"
+      {{- end }}
     nodePorts:
-      http: "{{ .Values.HOME_INTERNAL_PORT }}"
-      https: 
+      http: "{{ .Values.HOME_INTERNAL_HTTP_PORT }}"
+      {{- if .Values.HOME_EXTERNAL_HTTPS_PORT }}
+      https: "{{ .Values.HOME_EXTERNAL_HTTPS_PORT }}"
+      {{- end }}
   # not needed in this setup
   admissionWebhooks:
     enabled: false
