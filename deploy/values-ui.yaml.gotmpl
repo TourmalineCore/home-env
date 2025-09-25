@@ -1,0 +1,36 @@
+# —— START —— #
+# —— DO NOT CHANGE MANUALLY —— #
+# —— UPDATED IN WORKFLOWS —— #
+image:
+  tag: "sha-56462c2b76e11a06ca992f92bf8d667e5158880a"
+# —— END —— #
+
+ingress:
+  hostname: "{{ .Values.HOME_UI_HOSTNAME }}"
+
+replicaCount: 2
+
+updateStrategy:
+  rollingUpdate:
+    maxUnavailable: 1
+    maxSurge: 1
+
+# Here you can read more about container probes https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
+readinessProbe:
+  enabled: true
+  path: /
+  initialDelaySeconds: 15
+  periodSeconds: 30
+
+livenessProbe:
+  enabled: true
+  path: /
+  initialDelaySeconds: 45
+  periodSeconds: 60
+
+extraConfigMapEnvVars:
+  CMS_URL: "http://home-cms-nginx"
+  PREVIEW_SECRET: "{{ .Values.HOME_PREVIEW_SECRET }}"
+
+  NEXT_PUBLIC_METRICS_ENABLED: "{{ .Values.HOME_NEXT_PUBLIC_METRICS_ENABLED }}"
+  NEXT_PUBLIC_YANDEX_METRIKA_ID: "{{ .Values.HOME_NEXT_PUBLIC_YANDEX_METRIKA_ID }}"
