@@ -7,6 +7,8 @@ repositories:
     url: https://kubernetes.github.io/ingress-nginx
   - name: jetstack
     url: https://charts.jetstack.io
+  - name: home-env-synchronizer
+    url: git+https://github.com/TourmalineCore/home-env-synchronizer.git?ref=master
     
 environments:
   prod:
@@ -93,3 +95,30 @@ releases:
       - git::https://github.com/TourmalineCore/home-ui.git@/ci/values.yaml?ref=master
       - values.yaml.gotmpl
       - values-ui.yaml.gotmpl    
+
+  - name: home-env-synchronizer
+    labels:
+      app: home-env-synchronizer
+    wait: true
+    chart: home-env-synchronizer/home-env-synchronizer
+    values:
+      # https://helmfile.readthedocs.io/en/latest/#loading-remote-environment-values-files
+      - git::https://github.com/TourmalineCore/home-env-synchronizer.git@/ci/values.yaml?ref=master
+      - values.yaml.gotmpl
+      - values-env-synchronizer.yaml.gotmpl
+    hooks:
+      # Create namespace if doesn't exists. It's needed in reason that configmap for env-synchronizer can't be created before namespace
+      - events: ["prepare"]
+        showlogs: true
+        command: "sh"
+        args: ["-c", "if ! kubectl get namespace {{ .Environment.Name }}; then kubectl create namespace {{ .Environment.Name }}; fi"]
+      # Delete configmap if already exists
+      - events: ["prepare"]
+        showlogs: true
+        command: "sh"
+        args: ["-c", "if kubectl get configmap {{ .Values.HOME_SYNCHRONIZER_CONFIGMAP_NAME }} --namespace {{ .Environment.Name }} && [ -f ../.devcontainer/devcontainer.env ]; then kubectl delete configmap {{ .Values.HOME_SYNCHRONIZER_CONFIGMAP_NAME }} --namespace {{ .Environment.Name }}; fi"]
+      # Create configmap with env values
+      - events: ["preapply"]
+        showlogs: true
+        command: "sh"
+        args: ["-c", "if [ -f ../.devcontainer/devcontainer.env ]; then kubectl create configmap {{ .Values.HOME_SYNCHRONIZER_CONFIGMAP_NAME }} --from-env-file ../.devcontainer/devcontainer.env --namespace {{ .Environment.Name }}; fi"]
