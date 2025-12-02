@@ -9,6 +9,10 @@ ingress:
   hostname: "{{ .Values.HOME_UI_HOSTNAME }}"
   extraHosts:
     - name: "www.{{ .Values.HOME_UI_HOSTNAME }}"
+  extraTls:
+  - hosts:
+      - "www.{{ .Values.HOME_UI_HOSTNAME }}"
+    secretName: "{{ .Values.HOME_UI_HOSTNAME }}-tls"
   annotations: 
     nginx.ingress.kubernetes.io/configuration-snippet: "if ($host = www.{{ .Values.HOME_UI_HOSTNAME }}) { return 301 {{ .Values.HOME_UI_BASE_EXTERNAL_URL }}request_uri; }"
 
