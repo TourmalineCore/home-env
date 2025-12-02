@@ -19,5 +19,6 @@ controller:
     # it has differences from Cluster policy. however, for this single node cluster this looks acceptable
     externalTrafficPolicy: "Local"
   config:
+    allow-snippet-annotations: true
     # https://github.com/kubernetes/ingress-nginx/blob/main/docs/user-guide/nginx-configuration/configmap.md#proxy-body-size
     proxy-body-size: "100m"
