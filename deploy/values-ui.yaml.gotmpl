@@ -7,6 +7,8 @@ image:
 
 ingress:
   hostname: "{{ .Values.HOME_UI_HOSTNAME }}"
+  extraHosts:
+    - name: "www.{{ .Values.HOME_UI_HOSTNAME }}"
 
 replicaCount: 2
 
