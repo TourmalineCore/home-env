@@ -10,7 +10,7 @@ ingress:
   extraHosts:
     - name: "www.{{ .Values.HOME_UI_HOSTNAME }}"
   annotations: 
-    nginx.ingress.kubernetes.io/configuration-snippet: "if ($host = www.{{ .Values.HOME_UI_HOSTNAME }}) { return 301 {{ .Values.HOME_UI_BASE_EXTERNAL_URL}}request_uri; }"
+    nginx.ingress.kubernetes.io/configuration-snippet: "if ($host = www.{{ .Values.HOME_UI_HOSTNAME }}) { return 301 {{ .Values.HOME_UI_BASE_EXTERNAL_URL }}request_uri; }"
 
 replicaCount: 2
 
