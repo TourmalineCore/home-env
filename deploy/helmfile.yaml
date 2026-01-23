@@ -94,7 +94,7 @@ releases:
       - ingress-nginx
     values:
       # https://helmfile.readthedocs.io/en/latest/#loading-remote-environment-values-files
-      - git::https://github.com/TourmalineCore/home-ui.git@/ci/values.yaml?ref=21cf73c9d6b7c4fa23aadfb7018dac1dd2d4c2e1
+      - git::https://github.com/TourmalineCore/home-ui.git@/ci/values.yaml?ref=cba1dea2e10ba7f8f67a75716485b2d71ec3e789
       - values.yaml.gotmpl
       - values-ui.yaml.gotmpl    
 
