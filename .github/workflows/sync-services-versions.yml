@@ -70,7 +70,7 @@ jobs:
           git push origin $BRANCH_NAME
 
       - name: Set PR title
-        run: 'echo "PR_TITLE=sync: ${{ github.event.client_payload.repository }} image tag" >> $GITHUB_ENV' 
+        run: 'echo "PR_TITLE=sync: ${{ github.event.client_payload.service_name }} image tag" >> $GITHUB_ENV' 
         
       - name: Create PR
         run: gh pr create -B master -H $BRANCH_NAME --title "${{ env.PR_TITLE }}" -F commit_message.txt
