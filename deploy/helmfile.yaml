@@ -75,7 +75,7 @@ releases:
       - postgresql
     values:
       # https://helmfile.readthedocs.io/en/latest/#loading-remote-environment-values-files
-      - git::https://github.com/TourmalineCore/home.git@/cms/ci/values.yaml?ref=master
+      - git::https://github.com/TourmalineCore/home.git@/cms/ci/values.yaml?ref=ebeddc3fc586d8d9bc306aa2d786c40aa54b3ecd
       - values.yaml.gotmpl
       - values-cms.yaml.gotmpl
 
