@@ -41,9 +41,16 @@ jobs:
 
       - name: Write new tag to helmfile
         run: |
-      - name: Write new tag to helmfile
-        run: |
+          # The first one changes the ref for custom repository in the helmfile
+          # For example: 
+          # The URL was: git+https://github.com/TourmalineCore/home.git@env-synchronizer?ref=2b1b79806fc9291782aa5865d440045e1a155335
+          # Became: git+https://github.com/TourmalineCore/home.git@env-synchronizer?ref=fb67abade2db5390fe40bc601d9dbf45cfb59f77
           sed -i "0,/${{ github.event.client_payload.service_name }}?ref=.*/s//${{ github.event.client_payload.service_name }}?ref=${{ github.event.client_payload.sha }}/" $PATH_TO_HELMFILE
+
+          # The second one changes the ref for service values file ref in the helmfile
+          # For example:
+          # The URL was: git::https://github.com/TourmalineCore/home.git@/env-synchronizer/ci/values.yaml?ref=2b1b79806fc9291782aa5865d440045e1a155335
+          # Became: git::https://github.com/TourmalineCore/home.git@/env-synchronizer/ci/values.yaml?ref=fb67abade2db5390fe40bc601d9dbf45cfb59f77
           sed -i "0,/${{ github.event.client_payload.service_name }}\/ci\/values.yaml?ref=.*/s//${{ github.event.client_payload.service_name }}\/ci\/values.yaml?ref=${{ github.event.client_payload.sha }}/" $PATH_TO_HELMFILE
 
       - name: Commit and Push Changes
