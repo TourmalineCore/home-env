@@ -8,7 +8,7 @@ repositories:
   - name: jetstack
     url: https://charts.jetstack.io
   - name: home-s3-backupper
-    url: git+https://github.com/TourmalineCore/home-backuppers.git@s3-backupper?ref=feature/add_s3_backupper
+    url: git+https://github.com/TourmalineCore/home.git@s3-backupper?ref=f8c8615a648ef232d9a84313493a5899d87c93ea
   - name: home-env-synchronizer
     url: git+https://github.com/TourmalineCore/home.git@env-synchronizer?ref=dfa5f5c890d20e25154a61f28dee02ec7b452004
     
@@ -136,6 +136,6 @@ releases:
       - postgresql
     values:
       # https://helmfile.readthedocs.io/en/latest/#loading-remote-environment-values-files
-      - git::https://github.com/TourmalineCore/home-backuppers.git@s3-backupper/ci/values.yaml?ref=2ea8ac353e5f4ababd2231161c60fad89bf6ef03
+      - git::https://github.com/TourmalineCore/home.git@s3-backupper/ci/values.yaml?ref=f8c8615a648ef232d9a84313493a5899d87c93ea
       - values.yaml.gotmpl
       - values-s3-backupper.yaml.gotmpl
