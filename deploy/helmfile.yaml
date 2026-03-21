@@ -7,6 +7,8 @@ repositories:
     url: https://kubernetes.github.io/ingress-nginx
   - name: jetstack
     url: https://charts.jetstack.io
+  - name: home-s3-backupper
+    url: git+https://github.com/TourmalineCore/home.git@s3-backupper?ref=f8c8615a648ef232d9a84313493a5899d87c93ea
   - name: home-db-backupper
     url: git+https://github.com/TourmalineCore/home.git@db-backupper?ref=a942b3657e07ab22918dbfd2cd82e4491850d1c5
   - name: home-env-synchronizer
@@ -126,6 +128,19 @@ releases:
         showlogs: true
         command: "sh"
         args: ["-c", "if [ -f ../.devcontainer/devcontainer.env ]; then kubectl create configmap {{ .Values.HOME_SYNCHRONIZER_CONFIGMAP_NAME }} --from-env-file ../.devcontainer/devcontainer.env --namespace {{ .Environment.Name }}; fi"]
+
+  - name: home-s3-backupper
+    labels:
+      app: home-s3-backupper
+    wait: true
+    chart: home-s3-backupper/home-s3-backupper
+    needs: 
+      - home-cms
+    values:
+      # https://helmfile.readthedocs.io/en/latest/#loading-remote-environment-values-files
+      - git::https://github.com/TourmalineCore/home.git@s3-backupper/ci/values.yaml?ref=f8c8615a648ef232d9a84313493a5899d87c93ea
+      - values.yaml.gotmpl
+      - values-s3-backupper.yaml.gotmpl
 
   - name: home-db-backupper
     labels:
