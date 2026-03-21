@@ -9,6 +9,8 @@ repositories:
     url: https://charts.jetstack.io
   - name: home-s3-backupper
     url: git+https://github.com/TourmalineCore/home.git@s3-backupper?ref=f8c8615a648ef232d9a84313493a5899d87c93ea
+  - name: home-db-backupper
+    url: git+https://github.com/TourmalineCore/home.git@db-backupper?ref=a942b3657e07ab22918dbfd2cd82e4491850d1c5
   - name: home-env-synchronizer
     url: git+https://github.com/TourmalineCore/home.git@env-synchronizer?ref=dfa5f5c890d20e25154a61f28dee02ec7b452004
     
@@ -133,9 +135,22 @@ releases:
     wait: true
     chart: home-s3-backupper/home-s3-backupper
     needs: 
-      - postgresql
+      - home-cms
     values:
       # https://helmfile.readthedocs.io/en/latest/#loading-remote-environment-values-files
       - git::https://github.com/TourmalineCore/home.git@s3-backupper/ci/values.yaml?ref=f8c8615a648ef232d9a84313493a5899d87c93ea
       - values.yaml.gotmpl
       - values-s3-backupper.yaml.gotmpl
+
+  - name: home-db-backupper
+    labels:
+      app: home-db-backupper
+    wait: true
+    chart: home-db-backupper/home-db-backupper
+    needs: 
+      - postgresql
+    values:
+      # https://helmfile.readthedocs.io/en/latest/#loading-remote-environment-values-files
+      - git::https://github.com/TourmalineCore/home.git@db-backupper/ci/values.yaml?ref=a942b3657e07ab22918dbfd2cd82e4491850d1c5
+      - values.yaml.gotmpl
+      - values-db-backupper.yaml.gotmpl
