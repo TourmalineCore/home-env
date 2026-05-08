@@ -51,3 +51,9 @@ HOME_LETS_ENCRYPT_EMAIL: "{{ requiredEnv "HOME_PROD_LETS_ENCRYPT_EMAIL" }}"
 HOME_MAILRU_EMAIL: "{{ requiredEnv "HOME_PROD_MAILRU_EMAIL" }}"
 HOME_MAILRU_PASSWORD: "{{ requiredEnv "HOME_PROD_MAILRU_PASSWORD" }}"
 HOME_SMARTCAPTCHA_SERVER_KEY: "{{ requiredEnv "HOME_PROD_SMARTCAPTCHA_SERVER_KEY" }}"
+
+# It seems okto hardcode hostname because it will be public so it's not a secret
+# TODO: hardcode other non-secret vars
+HOME_URL_SHORTENER_HOSTNAME: "go.tourmalinecore.com"
+HOME_URL_SHORTENER_BASE_PATH: ""
+HOME_URL_SHORTENER_ALLOWED_IP_ADDRESSES_WHITELIST: "{{ requiredEnv "HOME_PROD_CMS_ALLOWED_IP_ADDRESSES_WHITELIST" }}"
