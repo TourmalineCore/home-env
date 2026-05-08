@@ -15,7 +15,7 @@ extraConfigMapEnvVars:
   DB_PASSWORD: "{{ .Values.HOME_DATABASE_PASSWORD }}"
   MULTI_SEGMENT_SLUGS_ENABLED: "true"
 
-replicaCount: 2
+replicaCount: 1
 
 service:
   type: ClusterIP
@@ -79,7 +79,6 @@ extraDeploy:
         nginx.ingress.kubernetes.io/rewrite-target: {{ .Values.HOME_URL_SHORTENER_BASE_PATH }}/rest/$2
         nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
         nginx.ingress.kubernetes.io/whitelist-source-range: {{ .Values.HOME_URL_SHORTENER_ALLOWED_IP_ADDRESSES_WHITELIST | quote }}
-        
     spec:
       ingressClassName: nginx
       tls:
