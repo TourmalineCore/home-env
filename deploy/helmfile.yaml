@@ -114,52 +114,20 @@ releases:
       - values-env-synchronizer.yaml.gotmpl
     hooks:
       # Create namespace if doesn't exists. It's needed in reason that configmap for env-synchronizer can't be created before namespace
-      # IFS and "-r" is used to read line without changes
       - events: ["prepare"]
         showlogs: true
         command: "sh"
-        args:
-          - "-c"
-          - |
-            if ! kubectl get namespace {{ .Environment.Name }}; then
-              kubectl create namespace {{ .Environment.Name }} 2>&1 |
-              while IFS= read -r line; do
-                printf '[%s]: %s\n' "$(date '+%Y-%m-%dT%H-%M-%S')" "$line"
-              done
-            fi
-
+        args: ["-c", "if ! kubectl get namespace {{ .Environment.Name }}; then kubectl create namespace {{ .Environment.Name }}; fi"]
       # Delete configmap if already exists
       - events: ["prepare"]
         showlogs: true
         command: "sh"
-        args:
-          - "-c"
-          - |
-            if kubectl get configmap {{ .Values.HOME_SYNCHRONIZER_CONFIGMAP_NAME }} --namespace {{ .Environment.Name }} && \
-              [ -f ../.devcontainer/devcontainer.env ]; then
-              kubectl delete configmap {{ .Values.HOME_SYNCHRONIZER_CONFIGMAP_NAME }} \
-                --namespace {{ .Environment.Name }} 2>&1 |
-              while IFS= read -r line; do
-                printf '[%s]: %s\n' "$(date '+%Y-%m-%dT%H-%M-%S')" "$line"
-              done
-            fi
-
+        args: ["-c", "if kubectl get configmap {{ .Values.HOME_SYNCHRONIZER_CONFIGMAP_NAME }} --namespace {{ .Environment.Name }} && [ -f ../.devcontainer/devcontainer.env ]; then kubectl delete configmap {{ .Values.HOME_SYNCHRONIZER_CONFIGMAP_NAME }} --namespace {{ .Environment.Name }}; fi"]
       # Create configmap with env values
       - events: ["preapply"]
         showlogs: true
         command: "sh"
-        args:
-          - "-c"
-          - |
-            if [ -f ../.devcontainer/devcontainer.env ]; then
-              kubectl create configmap {{ .Values.HOME_SYNCHRONIZER_CONFIGMAP_NAME }} \
-                --from-env-file ../.devcontainer/devcontainer.env \
-                --namespace {{ .Environment.Name }} 2>&1 |
-              while IFS= read -r line; do
-                printf '[%s]: %s\n' "$(date '+%Y-%m-%dT%H-%M-%S')" "$line"
-              done
-            fi
-
+        args: ["-c", "if [ -f ../.devcontainer/devcontainer.env ]; then kubectl create configmap {{ .Values.HOME_SYNCHRONIZER_CONFIGMAP_NAME }} --from-env-file ../.devcontainer/devcontainer.env --namespace {{ .Environment.Name }}; fi"]
 
   - name: home-s3-backupper
     labels:
