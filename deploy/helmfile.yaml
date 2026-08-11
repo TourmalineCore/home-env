@@ -12,7 +12,7 @@ repositories:
   - name: home-db-backupper
     url: git+https://github.com/TourmalineCore/home.git@db-backupper?ref=bfd82ce573b21f58908af2d907ff192300602b36
   - name: home-env-synchronizer
-    url: git+https://github.com/TourmalineCore/home.git@env-synchronizer?ref=dfa5f5c890d20e25154a61f28dee02ec7b452004
+    url: git+https://github.com/TourmalineCore/home.git@env-synchronizer?ref=24c17fb0d381ae0f0b5ddc2933c16a2883e45ce9
     
 environments:
   prod:
@@ -109,7 +109,7 @@ releases:
     chart: home-env-synchronizer/home-env-synchronizer
     values:
       # https://helmfile.readthedocs.io/en/latest/#loading-remote-environment-values-files
-      - git::https://github.com/TourmalineCore/home.git@/env-synchronizer/ci/values.yaml?ref=dfa5f5c890d20e25154a61f28dee02ec7b452004
+      - git::https://github.com/TourmalineCore/home.git@/env-synchronizer/ci/values.yaml?ref=24c17fb0d381ae0f0b5ddc2933c16a2883e45ce9
       - values.yaml.gotmpl
       - values-env-synchronizer.yaml.gotmpl
     hooks:
